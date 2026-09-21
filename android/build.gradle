@@ -1,0 +1,75 @@
+group = "com.universalweblinks.liveness_kit"
+version = "1.0-SNAPSHOT"
+
+buildscript {
+    ext.kotlin_version = "2.1.0"
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.9.1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+
+android {
+    namespace = "com.universalweblinks.liveness_kit"
+
+    compileSdk = 36
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
+    }
+
+    defaultConfig {
+        minSdk = 24
+    }
+
+
+    dependencies {
+        // Face landmarks. Deliberately MediaPipe and not ML Kit: the iOS side
+        // is Apple Vision, so neither platform drags Firebase or a CocoaPod
+        // into a host app for this.
+        //
+        // Pinned at 1.0.0 for the page size, not the features: 0.10.14
+        // shipped libmediapipe_tasks_jni.so aligned to 4 KB, which Play now
+        // rejects and which cannot be loaded at all on a 16 KB-page device.
+        implementation("com.google.mediapipe:tasks-vision:1.0.0")
+
+        testImplementation("org.jetbrains.kotlin:kotlin-test")
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+
+            testLogging {
+               events "passed", "skipped", "failed", "standardOut", "standardError"
+               outputs.upToDateWhen {false}
+               showStandardStreams = true
+            }
+        }
+    }
+}
