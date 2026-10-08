@@ -1,3 +1,14 @@
+## 0.1.1
+
+* Ship the R8 rules MediaPipe needs, as `consumerProguardFiles`. Without them
+  a host app's release build loaded the native library fine and then failed
+  inside `FaceLandmarker.createFromOptions`, so the check reported itself
+  unavailable on every release build while debug builds worked. Two separate
+  causes, both now covered: R8 renamed the fields of a protobuf-lite message
+  that names them in its own schema string, and renamed the Flogger classes
+  that `Graph`'s static initializer identifies by walking the stack. Host apps
+  need no longer copy anything.
+
 ## 0.1.0
 
 First release.

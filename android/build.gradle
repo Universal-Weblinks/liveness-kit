@@ -45,6 +45,12 @@ android {
 
     defaultConfig {
         minSdk = 24
+
+        // Handed to every host app's R8 run. MediaPipe cannot survive
+        // obfuscation — see consumer-rules.pro for the exact failure — and a
+        // host app has no way to know that until its first release build
+        // reports the face check as unavailable on a real device.
+        consumerProguardFiles("consumer-rules.pro")
     }
 
 

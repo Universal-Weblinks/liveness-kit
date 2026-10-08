@@ -2,7 +2,7 @@ name: liveness_kit
 description: >-
   Gesture-based face liveness check for Flutter: head-turn challenges, a
   still at the end, and native face detection with no Firebase or ML Kit.
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/Universal-Weblinks/liveness-kit
 issue_tracker: https://github.com/Universal-Weblinks/liveness-kit/issues
 

@@ -129,8 +129,15 @@ On iOS, add the camera permission to `ios/Runner/Info.plist`:
 Vision ships with iOS. Minimum deployment target is 13.0.
 
 On Android there is nothing to add. The camera permission comes from the
-`camera` plugin, and the face model ships inside this package, so there is
-nothing to download and nothing to register. Minimum SDK is 24.
+`camera` plugin, the face model ships inside this package, and the R8 rules
+MediaPipe needs come with it as `consumerProguardFiles`, so there is nothing
+to download, register or copy into your own `proguard-rules.pro`. Minimum SDK
+is 24.
+
+On 0.1.0 those R8 rules were missing, and the symptom was specific: release
+builds reported the check unavailable while debug builds worked, because R8
+only runs for release. If you are pinned there, copy
+`android/consumer-rules.pro` from this package into your app, or upgrade.
 
 ## Size
 
